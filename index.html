@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- PWA 行動裝置優化 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="S.Y Studio">
+    <meta name="theme-color" content="#FDFBF9">
+    
+    <!-- APP 圖示 -->
+    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/512/nail-polish.png">
+    
     <title>S.Y Studio 報價系統</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -22,41 +30,43 @@
             font-family: 'Montserrat', 'Noto Serif TC', serif;
             background-color: var(--latte-bg);
             color: var(--latte-text);
-            padding-top: 100px;
-            padding-bottom: env(safe-area-inset-bottom, 20px);
+            padding-top: calc(100px + env(safe-area-inset-top, 0px));
+            padding-bottom: calc(40px + env(safe-area-inset-bottom, 20px));
             -webkit-font-smoothing: antialiased;
+            overscroll-behavior-y: contain;
+            user-select: none;
         }
 
-        /* 置頂金額欄位 */
         .sticky-header {
             position: fixed;
             top: 0; left: 0; right: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--latte-border);
             z-index: 1000;
             padding: 15px 20px;
-            padding-top: env(safe-area-inset-top, 15px);
+            padding-top: calc(15px + env(safe-area-inset-top, 0px));
         }
 
         .ins-card {
             background: var(--latte-card);
             border: 1px solid var(--latte-border);
-            border-radius: 1rem;
-            box-shadow: 0 4px 12px rgba(184, 151, 126, 0.05);
-            margin-bottom: 1.25rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 15px rgba(184, 151, 126, 0.08);
+            margin-bottom: 1.5rem;
             padding: 1.5rem;
         }
 
         .section-header {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--latte-accent);
             font-weight: 700;
             display: flex;
             align-items: center;
             margin-bottom: 1.25rem;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
         }
 
         .section-header::after {
@@ -64,19 +74,19 @@
             flex: 1;
             height: 1px;
             background: var(--latte-border);
-            margin-left: 0.75rem;
+            margin-left: 1rem;
         }
 
         .checkbox-custom {
             appearance: none;
-            width: 1.35rem;
-            height: 1.35rem;
-            border: 1.5px solid var(--latte-accent);
+            width: 1.6rem;
+            height: 1.6rem;
+            border: 2px solid var(--latte-accent);
             border-radius: 50%;
             cursor: pointer;
             position: relative;
             background: white;
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             flex-shrink: 0;
         }
 
@@ -88,29 +98,32 @@
             content: "✓";
             color: white;
             position: absolute;
-            left: 50%; top: 50%;
+            left: 50%; top: 48%;
             transform: translate(-50%, -50%);
-            font-size: 0.8rem;
+            font-size: 1rem;
+            font-weight: bold;
         }
 
         .input-qty {
             background: #F9F6F2;
             border: 1px solid var(--latte-border);
-            border-radius: 8px;
-            width: 55px;
+            border-radius: 12px;
+            width: 65px;
             text-align: center;
-            font-size: 0.95rem;
-            padding: 4px 0;
+            font-size: 1.1rem;
+            padding: 8px 0;
             outline: none;
+            color: var(--latte-text);
         }
 
         .discount-pill {
             cursor: pointer;
-            padding: 6px 14px;
-            border-radius: 20px;
-            border: 1px solid var(--latte-border);
-            font-size: 0.75rem;
-            transition: all 0.2s;
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: 1.5px solid var(--latte-border);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s;
             background: white;
             color: #A09690;
         }
@@ -119,23 +132,31 @@
             background: var(--latte-accent);
             color: white;
             border-color: var(--latte-accent);
+            box-shadow: 0 5px 12px rgba(184, 151, 126, 0.3);
         }
 
         .action-btn {
             background: var(--latte-accent);
             color: white;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 0.95rem;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1.05rem;
             font-weight: 600;
             width: 100%;
-            box-shadow: 0 4px 12px rgba(184, 151, 126, 0.2);
-            transition: opacity 0.2s;
+            box-shadow: 0 8px 20px rgba(184, 151, 126, 0.3);
+            transition: all 0.2s;
         }
 
         .action-btn:active {
-            opacity: 0.8;
+            transform: scale(0.96);
+            filter: brightness(0.9);
         }
+
+        #toast {
+            transition: opacity 0.3s ease;
+        }
+
+        label { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
 <body>
@@ -143,157 +164,167 @@
     <div class="sticky-header">
         <div class="max-w-md mx-auto flex items-center justify-between">
             <div class="flex flex-col">
-                <span class="text-[0.6rem] uppercase tracking-widest text-gray-400 mb-0.5">Estimated Total</span>
+                <span class="text-[0.65rem] uppercase tracking-widest text-stone-400 mb-0.5 font-bold">Estimated Total</span>
                 <div class="flex items-baseline gap-2">
-                    <span id="display-total" class="text-2xl font-bold text-stone-700">$ 0</span>
-                    <span id="original-price" class="text-xs text-gray-300 line-through hidden"></span>
+                    <span id="display-total" class="text-3xl font-bold text-stone-700 tracking-tighter">$ 0</span>
+                    <span id="original-price" class="text-xs text-stone-300 line-through hidden"></span>
                 </div>
             </div>
             <div class="flex gap-2">
-                <div id="disc-90" class="discount-pill" onclick="toggleDiscount(0.9, 'disc-90')">9折</div>
-                <div id="disc-85" class="discount-pill" onclick="toggleDiscount(0.85, 'disc-85')">85折</div>
+                <button id="disc-90" class="discount-pill" onclick="toggleDiscount(0.9, 'disc-90')">9 折</button>
+                <button id="disc-85" class="discount-pill" onclick="toggleDiscount(0.85, 'disc-85')">85 折</button>
             </div>
         </div>
     </div>
 
-    <div class="max-w-md mx-auto px-4">
-        <header class="text-center mb-8 mt-4">
-            <h1 class="text-3xl font-light tracking-[0.2em] mb-1" style="color: var(--latte-accent);">S.Y Studio</h1>
-            <p class="text-[0.6rem] uppercase tracking-[0.4em] text-gray-400">Nail Art Estimation</p>
+    <div class="max-w-md mx-auto px-6">
+        <header class="text-center mb-12 mt-4">
+            <h1 class="text-4xl font-light tracking-[0.3em] mb-2" style="color: var(--latte-accent);">S.Y STUDIO</h1>
+            <p class="text-[0.7rem] uppercase tracking-[0.5em] text-stone-400 font-medium">Nail Art Estimation</p>
         </header>
 
-        <!-- 手部服務 -->
+        <!-- 手部基礎 -->
         <div class="ins-card">
-            <h2 class="section-header">手部服務</h2>
-            <div class="space-y-4">
+            <h2 class="section-header">Hand Services</h2>
+            <div class="space-y-6">
                 <label class="flex items-center justify-between cursor-pointer">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-4">
                         <input type="checkbox" class="checkbox-custom item-check" data-name="手部單色" data-price="1000">
-                        <span>手部單色</span>
+                        <span class="font-medium">手部單色</span>
                     </div>
-                    <span class="text-xs text-gray-300">$1,000</span>
+                    <span class="text-xs text-stone-300">$1,000</span>
                 </label>
                 <label class="flex items-center justify-between cursor-pointer">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-4">
                         <input type="checkbox" class="checkbox-custom item-check" data-name="單色漸層" data-price="1100">
-                        <span>單色漸層</span>
+                        <span class="font-medium">單色漸層</span>
                     </div>
-                    <span class="text-xs text-gray-300">$1,100</span>
+                    <span class="text-xs text-stone-300">$1,100</span>
                 </label>
                 <label class="flex items-center justify-between cursor-pointer">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-4">
                         <input type="checkbox" class="checkbox-custom item-check" data-name="璀璨漸層" data-price="1050">
-                        <span>璀璨漸層</span>
+                        <span class="font-medium">璀璨漸層</span>
                     </div>
-                    <span class="text-xs text-gray-300">$1,050</span>
+                    <span class="text-xs text-stone-300">$1,050</span>
                 </label>
                 
-                <div class="pt-4 border-t border-dashed border-gray-100 space-y-4">
-                    <div class="flex items-center justify-between text-sm text-stone-500">
-                        <span>跳色 (一色 $100)</span>
-                        <input type="number" min="0" value="0" class="input-qty item-num" data-name="跳色" data-price="100">
+                <div class="pt-6 mt-2 border-t border-stone-100 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-stone-600">跳色 (一色 $100)</span>
+                        <input type="number" inputmode="numeric" min="0" value="0" class="input-qty item-num" data-name="跳色" data-price="100">
                     </div>
-                    <div class="flex items-center justify-between text-sm text-stone-500">
-                        <span>延甲 (一指 $100)</span>
-                        <input type="number" min="0" value="0" class="input-qty item-num" data-name="延甲" data-price="100">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-stone-600">延甲 (一指 $100)</span>
+                        <input type="number" inputmode="numeric" min="0" value="0" class="input-qty item-num" data-name="延甲" data-price="100">
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 造型設計 -->
+        <!-- 造型費用 -->
         <div class="ins-card">
-            <h2 class="section-header">造型設計費</h2>
+            <h2 class="section-header">Design Fee</h2>
             <div class="grid grid-cols-2 gap-4">
-                <div class="flex flex-col gap-1">
-                    <span class="text-[0.65rem] text-gray-400 font-bold">$50 /指</span>
-                    <input type="number" min="0" value="0" class="input-qty w-full item-num" data-name="造型$50" data-price="50">
+                <div class="flex flex-col gap-2 bg-stone-50 p-4 rounded-2xl border border-stone-100">
+                    <span class="text-[0.7rem] text-stone-400 font-bold">$50 /指</span>
+                    <input type="number" inputmode="numeric" min="0" value="0" class="input-qty w-full item-num" data-name="造型$50" data-price="50">
                 </div>
-                <div class="flex flex-col gap-1">
-                    <span class="text-[0.65rem] text-gray-400 font-bold">$100 /指</span>
-                    <input type="number" min="0" value="0" class="input-qty w-full item-num" data-name="造型$100" data-price="100">
+                <div class="flex flex-col gap-2 bg-stone-50 p-4 rounded-2xl border border-stone-100">
+                    <span class="text-[0.7rem] text-stone-400 font-bold">$100 /指</span>
+                    <input type="number" inputmode="numeric" min="0" value="0" class="input-qty w-full item-num" data-name="造型$100" data-price="100">
                 </div>
-                <div class="flex flex-col gap-1">
-                    <span class="text-[0.65rem] text-gray-400 font-bold">$150 /指</span>
-                    <input type="number" min="0" value="0" class="input-qty w-full item-num" data-name="造型$150" data-price="150">
+                <div class="flex flex-col gap-2 bg-stone-50 p-4 rounded-2xl border border-stone-100">
+                    <span class="text-[0.7rem] text-stone-400 font-bold">$150 /指</span>
+                    <input type="number" inputmode="numeric" min="0" value="0" class="input-qty w-full item-num" data-name="造型$150" data-price="150">
                 </div>
-                <div class="flex flex-col gap-1">
-                    <span class="text-[0.65rem] text-gray-400 font-bold">$200 /指</span>
-                    <input type="number" min="0" value="0" class="input-qty w-full item-num" data-name="造型$200" data-price="200">
+                <div class="flex flex-col gap-2 bg-stone-50 p-4 rounded-2xl border border-stone-100">
+                    <span class="text-[0.7rem] text-stone-400 font-bold">$200 /指</span>
+                    <input type="number" inputmode="numeric" min="0" value="0" class="input-qty w-full item-num" data-name="造型$200" data-price="200">
                 </div>
             </div>
         </div>
 
-        <!-- 足部服務 -->
+        <!-- 足部項目 -->
         <div class="ins-card">
-            <h2 class="section-header">足部服務</h2>
-            <div class="space-y-4">
+            <h2 class="section-header">Foot Services</h2>
+            <div class="space-y-6">
                 <label class="flex items-center justify-between cursor-pointer">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-4">
                         <input type="checkbox" class="checkbox-custom item-check" data-name="足部單色" data-price="1100">
-                        <span>足部單色</span>
+                        <span class="font-medium">足部單色</span>
                     </div>
-                    <span class="text-xs text-gray-300">$1,100</span>
+                    <span class="text-xs text-stone-300">$1,100</span>
                 </label>
-                <label class="flex items-center justify-between cursor-pointer text-sm">
-                    <div class="flex items-center gap-3">
+                <label class="flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-4">
                         <input type="checkbox" class="checkbox-custom item-check" data-name="足部基礎保養" data-price="600">
-                        <span>足部基礎保養</span>
+                        <span class="font-medium">足部基礎保養</span>
                     </div>
-                    <span class="text-xs text-gray-300">$600</span>
+                    <span class="text-xs text-stone-300">$600</span>
                 </label>
-                <label class="flex items-center justify-between cursor-pointer text-sm">
-                    <div class="flex items-center gap-3">
+                <label class="flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-4">
                         <input type="checkbox" class="checkbox-custom item-check" data-name="足部深層保養" data-price="1200">
-                        <span>足部深層保養</span>
+                        <span class="font-medium">足部深層保養</span>
                     </div>
-                    <span class="text-xs text-gray-300">$1,200</span>
+                    <span class="text-xs text-stone-300">$1,200</span>
                 </label>
             </div>
         </div>
 
         <!-- 卸甲與保養 -->
         <div class="ins-card">
-            <h2 class="section-header">卸甲與基礎服務</h2>
-            <div class="space-y-4">
-                <label class="flex items-center justify-between cursor-pointer text-sm">
-                    <div class="flex items-center gap-3">
+            <h2 class="section-header">Removal & Care</h2>
+            <div class="space-y-6">
+                <label class="flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-4">
                         <input type="checkbox" class="checkbox-custom item-check" data-name="手部基礎保養" data-price="500">
-                        <span>手部基礎保養</span>
+                        <span class="font-medium">手部基礎保養</span>
                     </div>
-                    <span class="text-xs text-gray-300">$500</span>
+                    <span class="text-xs text-stone-300">$500</span>
                 </label>
-                <label class="flex items-center justify-between cursor-pointer text-sm">
-                    <div class="flex items-center gap-3">
+                <label class="flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-4">
                         <input type="checkbox" class="checkbox-custom item-check" data-name="他店卸甲續作(手)" data-price="300">
-                        <span>他店卸甲續作 (手)</span>
+                        <span class="font-medium">他店卸甲續作 (手)</span>
                     </div>
-                    <span class="text-xs text-gray-300">$300</span>
+                    <span class="text-xs text-stone-300">$300</span>
                 </label>
-                <label class="flex items-center justify-between cursor-pointer text-sm">
-                    <div class="flex items-center gap-3">
+                <label class="flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-4">
                         <input type="checkbox" class="checkbox-custom item-check" data-name="他店卸甲續作(足)" data-price="350">
-                        <span>他店卸甲續作 (足)</span>
+                        <span class="font-medium">他店卸甲續作 (足)</span>
                     </div>
-                    <span class="text-xs text-gray-300">$350</span>
+                    <span class="text-xs text-stone-300">$350</span>
                 </label>
-                <label class="flex items-center justify-between cursor-pointer text-sm">
-                    <div class="flex items-center gap-3">
-                        <input type="checkbox" class="checkbox-custom item-check" data-name="單卸甲 (手/足)" data-price="450">
-                        <span>單卸甲 (手/足)</span>
-                    </div>
-                    <span class="text-xs text-gray-300">$450</span>
-                </label>
+                
+                <div class="pt-6 mt-2 border-t border-stone-100 space-y-6">
+                    <label class="flex items-center justify-between cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <input type="checkbox" class="checkbox-custom item-check" data-name="單卸甲 (手)" data-price="400">
+                            <span class="font-medium">單卸甲 (手)</span>
+                        </div>
+                        <span class="text-xs text-stone-300">$400</span>
+                    </label>
+                    <label class="flex items-center justify-between cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <input type="checkbox" class="checkbox-custom item-check" data-name="單卸甲 (足)" data-price="450">
+                            <span class="font-medium">單卸甲 (足)</span>
+                        </div>
+                        <span class="text-xs text-stone-300">$450</span>
+                    </label>
+                </div>
             </div>
         </div>
 
-        <div class="flex flex-col gap-3 mt-6 mb-12">
+        <div class="flex flex-col gap-4 mt-8 mb-16">
             <button onclick="copyDetails()" class="action-btn">複製預約明細</button>
-            <button onclick="resetForm()" class="text-xs text-stone-300 text-center py-2 tracking-widest uppercase">Reset Form</button>
+            <button onclick="resetForm()" class="text-[0.6rem] text-stone-300 text-center py-2 tracking-[0.3em] uppercase font-bold">Clear All Selections</button>
         </div>
     </div>
 
-    <div id="toast" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-stone-800 text-white text-xs px-8 py-3 rounded-full opacity-0 transition-opacity pointer-events-none z-[2000]">已複製明細</div>
+    <div id="toast" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-stone-800 text-white text-xs px-10 py-4 rounded-2xl opacity-0 transition-opacity pointer-events-none z-[2000] shadow-2xl">已複製明細</div>
 
     <script>
         let currentDiscount = 1;
@@ -368,20 +399,23 @@
 
             text += "------------------\n";
             if (currentDiscount < 1) {
-                text += "小計：$" + subtotal.toLocaleString() + "\n";
+                text += "原價小計：$" + subtotal.toLocaleString() + "\n";
                 text += "折扣後總金額：$" + Math.round(subtotal * currentDiscount).toLocaleString();
             } else {
-                text += "總金額：$" + subtotal.toLocaleString();
+                text += "總計金額：$" + subtotal.toLocaleString();
             }
             
             const el = document.createElement("textarea");
             el.value = text;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
             document.body.appendChild(el);
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
             
-            showToast("明細已複製，可直接貼上");
+            showToast("明細已複製，可直接貼上分享");
         }
 
         function showToast(msg) {
